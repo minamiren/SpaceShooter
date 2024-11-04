@@ -9,13 +9,19 @@ public class ShipControls : MonoBehaviour
     public float rotationSpeed;
     public GameObject bolt;
 
+    public GameObject gameArea;
+
     private float shotWait = 0.3f;
     private float timeElapsed = 0;
+    private float width = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        Vector3 sz = gameArea.GetComponent<Renderer>().bounds.size;
+        width = sz.x;
     }
 
     // Update is called once per frame
@@ -28,7 +34,7 @@ public class ShipControls : MonoBehaviour
         //    Mathf.Clamp(changePos.z, -2, 13));
         //rb.MovePosition(changePos); // plays more like a classic arcade shooter
         rb.AddForce(moveVec * speed); // increase drag drastically and this works
-        rb.position = new Vector3(Mathf.Clamp(rb.position.x, -16, 16), rb.position.y,
+        rb.position = new Vector3(Mathf.Clamp(rb.position.x, -width/2, width/2), rb.position.y,
             Mathf.Clamp(rb.position.z, -2, 13));
         float rotationValue = 0;
         rotationValue = Mathf.Clamp(-1 * rb.GetPointVelocity(rb.position).x * rotationSpeed * Time.deltaTime, -45, 45);
